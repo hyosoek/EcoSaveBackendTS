@@ -43,7 +43,7 @@ app.use(express.json());
 app.use(express.static('../'));
 app.use(cookieParser());
 
-//API
+//non_singleton_API
 app.use(accountRoute.path, accountRoute.router);
 
 //MiddleWare
