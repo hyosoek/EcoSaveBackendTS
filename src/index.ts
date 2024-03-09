@@ -11,6 +11,7 @@ config({ path: '.env' });
 import postProcessor from 'middlewares/postProcessor';
 
 import accountRoute from '@routes/account.route';
+import refrigeratorRoute from '@routes/refrigerator.route';
 
 // import AccountRoute from '@routes/account.route';
 
@@ -45,6 +46,7 @@ app.use(cookieParser());
 
 //non_singleton_API
 app.use(accountRoute.path, accountRoute.router);
+app.use(refrigeratorRoute.path, refrigeratorRoute.router);
 
 //MiddleWare
 app.use(errorHandler);

@@ -22,9 +22,8 @@ class AccountService {
       token: null,
     };
 
-    if (data == null) result.message = 'Invalid user data';
+    if (data == null) result.message = 'Invalid refrigerator data';
     else result.token = data; // use publish token function
-
     //needTokenize
     return result;
   }
