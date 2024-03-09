@@ -9,6 +9,7 @@ class RegexPatterns {
   postTitle: RegExp;
   postDetail: RegExp;
   commentDetail: RegExp;
+  pathParser: RegExp;
   ip: RegExp;
   constructor() {
     this.id = /^[A-Za-z0-9]{0,32}$/;
@@ -21,6 +22,7 @@ class RegexPatterns {
     this.postTitle = /^.{1,32}$/;
     this.postDetail = /^.{1,1024}$/;
     this.commentDetail = /^.{1,512}$/;
+    this.pathParser = /(.+)\?/;
     this.ip =
       /^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)$/;
   }

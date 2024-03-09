@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import RefrigeratorService from '@services/refrigerator.service';
 import inputCheck from '@modules/inputCheck';
 import { BadRequestException } from '@modules/customError';
+import regexPatterns from '@modules/regex';
 
 class RefrigeratorController {
   public refrigeratorService = new RefrigeratorService();
@@ -18,8 +19,12 @@ class RefrigeratorController {
       if (Number.isNaN(intToInt)) {
         throw new BadRequestException('id should be integer');
       }
+      const temp = req.originalUrl;
 
-      res.locals.result = await this.refrigeratorService.search(intToInt);
+      if (temp.match(regexPatterns.pathParser)[1] == '/refrigerator')
+        res.locals.result = await this.refrigeratorService.search(intToInt);
+      else
+        res.locals.result = await this.refrigeratorService.gistSearch(intToInt);
       next();
     } catch (err) {
       console.log(err);

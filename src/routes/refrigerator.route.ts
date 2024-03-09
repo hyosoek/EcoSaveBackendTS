@@ -12,6 +12,7 @@ class RefrigeratorRoute {
 
   private initializeRoutes() {
     this.router.get(`/`, this.refrigeratorController.search);
+    this.router.get(`/gist`, this.refrigeratorController.search);
   }
 }
 
