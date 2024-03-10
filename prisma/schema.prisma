@@ -17,9 +17,9 @@ model Account {
   longitude    Float?
   latitude     Float?
   location     Unsupported("geometry")?
-  Refrigerator Refrigerator[]
+  refrigerator Refrigerator[]
 
-  @@index([location], map: "location_idx", type: Gist)
+  @@unique([id, location], map: "location_unique")
   @@index([mail], map: "mail_idx")
   @@map("account")
 }
@@ -34,11 +34,14 @@ model spatial_ref_sys {
 }
 
 model Refrigerator {
-  id         Int     @id @default(autoincrement())
-  account_id Int     @default(autoincrement())
-  energy     Float?  @db.Real
-  co2        Float?  @db.Real
-  model_name String? @db.VarChar(50)
-  account    Account @relation(fields: [account_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id         Int                      @id @default(autoincrement())
+  account_id Int                      @default(autoincrement())
+  energy     Float?                   @db.Real
+  co2        Float?                   @db.Real
+  model_name String?                  @db.VarChar(50)
+  location   Unsupported("geometry")?
+  account    Account?                 @relation(fields: [account_id, location], references: [id, location], onDelete: Cascade)
+
+  @@index([location], map: "gist_idx", type: Gist)
   @@map("refrigerator")
 }

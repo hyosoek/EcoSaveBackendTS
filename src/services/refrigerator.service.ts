@@ -1,6 +1,5 @@
-import { NotFoundException } from '@modules/customError';
 import prisma from '../../prisma/context';
-import { Sql } from '@prisma/client/runtime/library';
+import pgPool from '@configs/database/postgreSQL';
 
 class RefrigeratorService {
   // private readonly prisma: PrismaClient
@@ -9,12 +8,14 @@ class RefrigeratorService {
     token: string;
   }> {
     const data = // any type should be dto
-      await prisma.$queryRaw<unknown>`SELECT subquery.energy, subquery.distance AS distance
+      await prisma.$queryRaw<unknown>`SELECT subquery.nickname
       FROM (
           SELECT 
+              a.id,
+              a.nickname,
               b.energy,
-              ((a.latitude - (SELECT latitude FROM account WHERE id = 500000))^2 +        
-              (a.longitude - (SELECT longitude FROM account WHERE id = 500000))^2) as distance
+              ((a.latitude - (SELECT latitude FROM account WHERE id = ${id}))^2 +        
+              (a.longitude - (SELECT longitude FROM account WHERE id = ${id}))^2) as distance
           FROM 
               account a                                                              
           JOIN                                                                   
@@ -22,12 +23,12 @@ class RefrigeratorService {
           ON 
               a.id = b.account_id
           ORDER BY 
-              ((a.latitude - (SELECT latitude FROM account WHERE id = 500000))^2 +        
-              (a.longitude - (SELECT longitude FROM account WHERE id = 500000))^2)
+              ((a.latitude - (SELECT latitude FROM account WHERE id = ${id}))^2 +        
+              (a.longitude - (SELECT longitude FROM account WHERE id = ${id}))^2)
           LIMIT 100 OFFSET 0
       ) AS subquery
       ORDER BY 
-          subquery.energy;`;
+          id;`;
 
     const result = {
       message: null,
@@ -44,7 +45,16 @@ class RefrigeratorService {
   public async gistSearch(id: number): Promise<{
     token: string;
   }> {
-    const data = null;
+    const sql = `SELECT nickname
+    FROM account 
+    WHERE id IN (
+        SELECT account_id 
+        FROM refrigerator 
+        ORDER BY location::geometry <-> ST_SetSRID(ST_MakePoint((SELECT longitude FROM account WHERE id = ${id}),(SELECT latitude FROM account WHERE id = ${id})), 4326)
+        LIMIT 100
+    )
+    ORDER BY id;`;
+    const data = await pgPool.query(sql);
 
     const result = {
       message: null,
