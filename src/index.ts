@@ -48,6 +48,8 @@ app.use(cookieParser());
 app.use(accountRoute.path, accountRoute.router);
 app.use(refrigeratorRoute.path, refrigeratorRoute.router);
 
+//need 404 pass
+
 //MiddleWare
 app.use(errorHandler);
 app.use(postProcessor);

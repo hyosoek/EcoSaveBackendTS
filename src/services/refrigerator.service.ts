@@ -46,14 +46,15 @@ class RefrigeratorService {
     token: string;
   }> {
     const sql = `SELECT nickname
-    FROM account 
+    FROM account
     WHERE id IN (
-        SELECT account_id 
-        FROM refrigerator 
+        SELECT account_id
+        FROM refrigerator
         ORDER BY location::geometry <-> ST_SetSRID(ST_MakePoint((SELECT longitude FROM account WHERE id = ${id}),(SELECT latitude FROM account WHERE id = ${id})), 4326)
         LIMIT 100
     )
     ORDER BY id;`;
+
     const data = await pgPool.query(sql);
 
     const result = {
