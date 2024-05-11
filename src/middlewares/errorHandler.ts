@@ -1,5 +1,6 @@
 import { CustomError, InternerServerException } from 'modules/customError';
 import { Request, Response, NextFunction } from 'express';
+import { HttpStatus } from '@modules/httpStatus';
 
 declare global {
   namespace Express {
@@ -31,5 +32,5 @@ export default (
     result.message = serverError.message;
   }
   res.locals.result = result;
-  next();
+  res.status(res.locals.status).send(res.locals.result);
 };

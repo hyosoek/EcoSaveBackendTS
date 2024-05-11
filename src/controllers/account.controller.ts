@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import AccountService from '@services/account.service';
 import inputCheck from '@modules/inputCheck';
+import { HttpStatus } from '@modules/httpStatus';
 
 class AccountController {
   public accountService = new AccountService();
@@ -14,7 +15,7 @@ class AccountController {
       inputCheck(mail).isNotEmpty().isLength({ min: 4, max: 100 }).isMail();
       inputCheck(pw).isNotEmpty().isLength({ min: 4, max: 100 });
       res.locals.result = await this.accountService.logIn(req.body);
-      next();
+      res.status(HttpStatus.OK).send(res.locals.result);
     } catch (err) {
       next(err);
     }

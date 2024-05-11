@@ -3,6 +3,7 @@ import RefrigeratorService from '@services/refrigerator.service';
 import inputCheck from '@modules/inputCheck';
 import { BadRequestException } from '@modules/customError';
 import regexPatterns from '@modules/regex';
+import { HttpStatus } from '@modules/httpStatus';
 
 class RefrigeratorController {
   public refrigeratorService = new RefrigeratorService();
@@ -14,7 +15,6 @@ class RefrigeratorController {
     const { id } = req.query;
     try {
       inputCheck(id).isNotEmpty();
-
       let intToInt = parseInt(id as string);
       if (Number.isNaN(intToInt)) {
         throw new BadRequestException('id should be integer');
@@ -25,7 +25,8 @@ class RefrigeratorController {
         res.locals.result = await this.refrigeratorService.search(intToInt);
       else
         res.locals.result = await this.refrigeratorService.gistSearch(intToInt);
-      next();
+
+      return res.status(HttpStatus.OK).send(res.locals.result);
     } catch (err) {
       console.log(err);
       next(err);
