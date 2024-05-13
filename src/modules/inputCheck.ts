@@ -9,27 +9,27 @@ class InputCheck {
     this.input = input;
   }
 
-  isNotEmpty = () => {
+  isNotEmpty = (): InputCheck => {
     // combine all 'invalid type inputCheck' process (Can use module Individually)
     return this.isNotBlank().isNotNull().isNotUndefined();
   };
 
-  isNotBlank = () => {
+  isNotBlank = (): InputCheck => {
     if (this.input === '') this.goError('input is "" ');
     return this;
   };
 
-  isNotNull = () => {
+  isNotNull = (): InputCheck => {
     if (this.input === null) this.goError('input is null');
     return this;
   };
 
-  isNotUndefined = () => {
+  isNotUndefined = (): InputCheck => {
     if (this.input === undefined) this.goError('input is undefined');
     return this;
   };
 
-  isLength = ({ min, max }: { min?: number; max?: number }) => {
+  isLength = ({ min, max }: { min?: number; max?: number }): InputCheck => {
     if (!(typeof this.input === 'string'))
       this.goError(this.input + ' is not string input');
     else {
@@ -42,13 +42,13 @@ class InputCheck {
     return this;
   };
 
-  isMail = () => {
+  isMail = (): InputCheck => {
     if (!(typeof this.input === 'string' && validator.isEmail(this.input)))
       this.goError(this.input + ' is not mail type input');
     return this;
   };
 
-  isContact = () => {
+  isContact = (): InputCheck => {
     if (
       // !(typeof this.input === 'string' && validator.isMobilePhone(this.input))
       // We want to save Phone number with only number. (validator's isMobilePhone includes symbold such '-')
@@ -60,7 +60,7 @@ class InputCheck {
     return this;
   };
 
-  isDate = () => {
+  isDate = (): InputCheck => {
     if (
       //!(typeof this.input === 'string' && validator.isDate(this.input))
       // We want to save Date with PostgreSQL date type. (postgre's date column divides Y/M/D with only '-' not '/')
@@ -70,18 +70,18 @@ class InputCheck {
     return this;
   };
 
-  isIP = () => {
+  isIP = (): InputCheck => {
     if (!(typeof this.input === 'string' && validator.isIP(this.input)))
       this.goError(this.input + ' is not IP type input');
     return this;
   };
 
-  isEqual = (input2: any) => {
+  isEqual = (input2: any): InputCheck => {
     if (this.input !== input2) this.goError(this.input + ' is not same input');
     return this;
   };
 
-  isInt = () => {
+  isInt = (): InputCheck => {
     if (
       !(
         typeof this.input === 'number' && validator.isInt(this.input.toString())
@@ -91,7 +91,7 @@ class InputCheck {
     return this;
   };
 
-  isFloat = () => {
+  isFloat = (): InputCheck => {
     if (
       !(
         typeof this.input === 'number' &&
@@ -107,7 +107,7 @@ class InputCheck {
   };
 }
 
-const inputCheck = (input: unknown) => {
+const inputCheck = (input: unknown): InputCheck => {
   return new InputCheck(input);
 };
 
