@@ -1,12 +1,12 @@
-import { NotFoundException } from '@modules/customError';
+import { UnauthorizedException } from '@modules/customError';
 import prisma from '../../prisma/context';
+import { publishToken } from '@modules/token';
+import { Response } from 'express';
 
 class AccountService {
   // private readonly prisma: PrismaClient
   constructor() {}
-  public async logIn(requestBody: { mail: string; pw: string }): Promise<{
-    token: string;
-  }> {
+  public async logIn(requestBody: { mail: string; pw: string }, res: Response) {
     const data = await prisma.account.findUnique({
       select: {
         id: true,
@@ -17,15 +17,25 @@ class AccountService {
       },
     });
 
-    const result = {
-      message: null,
-      token: null,
-    };
+    if (data == null) {
+      const err = new UnauthorizedException('login failed');
+      throw err;
+    } else {
+      const token = await publishToken(data);
+      console.log(token);
+      res.setHeader(
+        'Set-Cookie',
+        'token=' +
+          token +
+          '; ' +
+          'Path=/;' +
+          'Domain=localhost; ' +
+          'HttpOnly; ' +
+          'Max-Age=604800; '
+      );
+    }
 
-    if (data == null) result.message = 'Invalid refrigerator data';
-    else result.token = data; // use publish token function
     //needTokenize
-    return result;
   }
 }
 

@@ -14,8 +14,8 @@ class AccountController {
     try {
       inputCheck(mail).isNotEmpty().isLength({ min: 4, max: 100 }).isMail();
       inputCheck(pw).isNotEmpty().isLength({ min: 4, max: 100 });
-      res.locals.result = await this.accountService.logIn(req.body);
-      res.status(HttpStatus.OK).send(res.locals.result);
+      await this.accountService.logIn(req.body, res);
+      res.status(HttpStatus.OK).send();
     } catch (err) {
       next(err);
     }
