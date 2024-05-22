@@ -22,6 +22,7 @@ class AccountService {
       throw err;
     } else {
       const token = await publishToken(data);
+      console.log(token);
       res.setHeader(
         'Set-Cookie',
         'token=' +
