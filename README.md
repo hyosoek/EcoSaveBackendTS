@@ -5,12 +5,14 @@ Ecosave Backend Server
 3. use 3-tier architecture
 4. use postgreSQL's extenstion : PostGIS => imporve performance on searching
 
-goal(2024.05.11.)
+clearlist:
 
--- 1. add athentication --
--- 3. production with docker(with docker-compose) --
+1. add athentication --
+2. production with docker(with docker-compose) --
 
 <!-- -- need container division to DB  (not docker-compose) -- -->
+
+goallist:
 
 2. enroll DNS
 3. traffic test
