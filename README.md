@@ -7,9 +7,10 @@ Ecosave Backend Server
 
 goal(2024.05.11.)
 
-<!-- 1. add athentication -->
-<!-- 3. production with docker -->
-<!-- with docker-compose -->
+-- 1. add athentication --
+-- 3. production with docker(with docker-compose) --
+
+<!-- -- need container division to DB  (not docker-compose) -- -->
 
 2. enroll DNS
 3. traffic test
