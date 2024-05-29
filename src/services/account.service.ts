@@ -1,8 +1,10 @@
+import { Service } from 'typedi';
 import { UnauthorizedException } from '@modules/customError';
 import prisma from '../../prisma/context';
 import { publishToken } from '@modules/token';
 import { Response } from 'express';
 
+@Service()
 class AccountService {
   // private readonly prisma: PrismaClient
   constructor() {}
@@ -34,8 +36,6 @@ class AccountService {
           'Max-Age=604800; '
       );
     }
-
-    //needTokenize
   }
 }
 

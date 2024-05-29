@@ -1,6 +1,8 @@
+import { Service } from 'typedi';
 import prisma from '../../prisma/context';
 import pgPool from '@configs/database/postgreSQL';
 
+@Service()
 class RefrigeratorService {
   // private readonly prisma: PrismaClient
   constructor() {}

@@ -4,9 +4,11 @@ import inputCheck from '@modules/inputCheck';
 import { BadRequestException } from '@modules/customError';
 import regexPatterns from '@modules/regex';
 import { HttpStatus } from '@modules/httpStatus';
+import Container from 'typedi';
 
 class RefrigeratorController {
-  public refrigeratorService = new RefrigeratorService();
+  public refrigeratorService: RefrigeratorService =
+    Container.get(RefrigeratorService);
 
   constructor() {}
 
@@ -26,7 +28,7 @@ class RefrigeratorController {
       else
         res.locals.result = await this.refrigeratorService.gistSearch(intToInt);
 
-      return res.status(HttpStatus.OK).send(res.locals.result);
+      res.status(HttpStatus.OK).send(res.locals.result);
     } catch (err) {
       console.log(err);
       next(err);

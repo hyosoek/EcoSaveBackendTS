@@ -1,10 +1,11 @@
+import { Container } from 'typedi';
 import { NextFunction, Request, Response } from 'express';
 import AccountService from '@services/account.service';
 import inputCheck from '@modules/inputCheck';
 import { HttpStatus } from '@modules/httpStatus';
 
 class AccountController {
-  public accountService = new AccountService();
+  public accountService = Container.get(AccountService);
 
   constructor() {}
 
@@ -14,7 +15,6 @@ class AccountController {
     try {
       inputCheck(mail).isNotEmpty().isLength({ min: 4, max: 100 }).isMail();
       inputCheck(pw).isNotEmpty().isLength({ min: 4, max: 100 });
-      await this.accountService.logIn(req.body, res);
       res.status(HttpStatus.OK).send();
     } catch (err) {
       console.log(err);

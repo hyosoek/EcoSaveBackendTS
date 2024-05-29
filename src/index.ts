@@ -7,6 +7,7 @@ import cors from 'cors';
 import { sslOptions } from 'configs/sslOptions';
 import { config } from 'dotenv';
 config({ path: '.env' });
+import 'reflect-metadata';
 
 import accountRoute from '@routes/account.route';
 import refrigeratorRoute from '@routes/refrigerator.route';
