@@ -21,4 +21,3 @@ goallist:
 5. use kubernetes
 6. EKS ECS
 7. mode divide https://doooodle932.tistory.com/162
-8. divide environment pro/dev
